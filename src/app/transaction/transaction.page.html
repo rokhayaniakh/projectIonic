@@ -1,0 +1,92 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title style=" font-size:20px;">
+            Transaction
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<!-- Segment in content -->
+<ion-segment [(ngModel)]="relationship" color="primary" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="Envoie">
+        Envoie
+    </ion-segment-button>
+    <ion-segment-button value="Retrait">
+        Retrait
+    </ion-segment-button>
+</ion-segment>
+<ion-content padding>
+    <form #form="ngForm" (ngSubmit)="Transaction(form)" class="form">
+        <div [(ngSwitch)]="relationship">
+            <ion-list *ngSwitchCase="'Envoie'">
+                <ion-item>
+                    <ion-label>Status</ion-label>
+                    <ion-select value="brown" okText="Okay" cancelText="Dismiss" name="status" [(ngModel)]="TransData.status" [(ngModel)]="retraitData.status">
+                        <ion-select-option value="envoi">Envoi</ion-select-option>
+                        <ion-select-option value="retrait">Retrait</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-toolbar>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label position="floating">Agence</ion-label>
+                                <ion-input ngModel type="text" name="agence" [(ngModel)]="TransData.agence"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label position="floating">Somme</ion-label>
+                                <ion-input ngModel type="text" name="somme" [(ngModel)]="TransData.somme" (keyup)="com($event)"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item *ngIf="tarif">
+                                <ion-label position="floating">frais {{tarif}} fcfa </ion-label>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-toolbar>
+                <ion-item>
+                    <ion-label position="floating">Nom Envoyeur</ion-label>
+                    <ion-input ngModel type="text" name="nomcomplet" [(ngModel)]="TransData.nomcomplet"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Nom Bénéficiaire</ion-label>
+                    <ion-input ngModel type="text" name="nomcompletben" [(ngModel)]="TransData.nomcompletben"></ion-input>
+                </ion-item>
+                <ion-toolbar>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label position="floating">Tel Envoyeur</ion-label>
+                                <ion-input ngModel type="number" name="tele" [(ngModel)]="TransData.tele"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label position="floating">Tel Bénéficiaire </ion-label>
+                                <ion-input ngModel type="number" name="tel" [(ngModel)]="TransData.tel"></ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-toolbar>
+                <ion-button type="submit" expand="full" color="primary" shape="round">Envoyer</ion-button>
+            </ion-list>
+            <ion-list *ngSwitchCase="'Retrait'">
+                <ion-item>
+                    <ion-label position="floating">Code </ion-label>
+                    <ion-input ngModel type="number" name="code" [(ngModel)]="retraitData.code"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">CNI </ion-label>
+                    <ion-input ngModel type="number" name="cni" [(ngModel)]="retraitData.cni"></ion-input>
+                </ion-item>
+                <ion-toolbar>
+                    <ion-button (click)=" Retrait()" type="submit" expand="full" color="success" shape="round">Retrait</ion-button>
+                </ion-toolbar>
+            </ion-list>
+        </div>
+    </form>
